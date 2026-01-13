@@ -1,3 +1,12 @@
+# IDEs and editors
+/.idea
+.project
+.classpath
+.c9/
+*.launch
+.settings/
+*.sublime-workspace
+
 # Node modules
 node_modules/
 .pnp/
@@ -18,7 +27,6 @@ dist/
 
 # Turborepo
 .cache/
-dist/
 
 # Prisma
 prisma/generated/
@@ -28,3 +36,10 @@ prisma/generated/
 
 # OS files
 .DS_Store
+
+
+# Prisma / SQLite
+*.db
+*.db-journal
+
+.ai

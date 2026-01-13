@@ -1,0 +1,60 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+enum Period {
+  DAILY
+  WEEKLY
+  MONTHLY
+  YEARLY
+}
+
+enum Status {
+  ACTIVE
+  INACTIVE
+  CANCELLED
+}
+
+model User {
+  id           String @id @default(cuid())
+  email        String @unique
+  name         String
+  passwordHash String @default("")
+
+  subscriptions Subscription[]
+  sessions      Session[]
+}
+
+model Subscription {
+  id        String   @id @default(cuid())
+  name      String
+  amount    Float
+  period    Period
+  status    Status
+  user      User     @relation(fields: [userId], references: [id])
+  userId    String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Session {
+  id     String @id @default(cuid())
+  user   User   @relation(fields: [userId], references: [id])
+  userId String
+
+  refreshTokenHash String
+
+  userAgent String?
+  ip        String?
+  device    String?
+
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+  lastUsedAt DateTime @default(now())
+
+  revokedAt DateTime?
+}
