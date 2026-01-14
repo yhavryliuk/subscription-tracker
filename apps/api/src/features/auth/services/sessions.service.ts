@@ -41,4 +41,19 @@ export class SessionsService {
       isCurrent: s.id === currentSessionId,
     }));
   }
+
+  async revokeSession(sessionId: string) {
+    const session = await this.prisma.session.findUnique({
+      where: { id: sessionId },
+    });
+
+    if (!session) return false;
+
+    await this.prisma.session.update({
+      where: { id: sessionId },
+      data: { revokedAt: new Date() },
+    });
+
+    return true;
+  }
 }

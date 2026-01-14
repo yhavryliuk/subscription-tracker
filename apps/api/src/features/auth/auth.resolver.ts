@@ -100,4 +100,9 @@ export class AuthResolver {
   async me(@CurrentUser() user: GqlUser) {
     return this.usersService.findById(user.id);
   }
+
+  @Mutation(() => Boolean)
+  async revokeSession(@Args('sessionId') sessionId: string) {
+    return this.sessionsService.revokeSession(sessionId);
+  }
 }
