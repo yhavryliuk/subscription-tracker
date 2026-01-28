@@ -1,5 +1,10 @@
 import * as bcrypt from 'bcryptjs';
-import { Inject, Injectable, UnauthorizedException } from '@nestjs/common';
+import {
+  ConflictException,
+  Inject,
+  Injectable,
+  UnauthorizedException,
+} from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { UsersService } from '@app/features/users';
 import { User } from '@prisma/client';
@@ -8,6 +13,7 @@ import { type ConfigType } from '@nestjs/config';
 import { JWT_CONFIG } from '@app/config';
 import { PrismaService } from '@app/prisma';
 import { GqlContext } from '@app/graphql';
+import { LoginInput, RegisterInput } from '@app/features/auth/dto';
 
 @Injectable()
 export class AuthService {
@@ -26,7 +32,7 @@ export class AuthService {
   private async updateRefreshToken(payload: JwtPayload) {
     const refreshToken = await this.jwtService.signAsync(payload, {
       secret: this.jwtConfig.refreshSecret,
-      expiresIn: this.jwtConfig.refreshTtlSec,
+      expiresIn: '7d', // TODO: replace from config
     });
 
     const refreshTokenHash = await bcrypt.hash(refreshToken, 10);
@@ -54,8 +60,17 @@ export class AuthService {
     return this.jwtService.verifyAsync<JwtPayload>(refreshToken);
   }
 
-  async login(email: string, password: string, ctx: GqlContext) {
-    const user = await this.validateLoginCredentials(email, password);
+  async login(
+    input: LoginInput,
+    meta: {
+      userAgent?: string;
+      ip?: string;
+    },
+  ) {
+    const user = await this.validateLoginCredentials(
+      input.email,
+      input.password,
+    );
     if (!user) {
       throw new UnauthorizedException('Invalid credentials');
     }
@@ -64,8 +79,7 @@ export class AuthService {
       data: {
         userId: user.id,
         refreshTokenHash: 'temp',
-        userAgent: ctx.req.headers['user-agent'],
-        ip: ctx.req.ip,
+        ...meta,
       },
     });
 
@@ -138,5 +152,37 @@ export class AuthService {
     if (!isPasswordValid) return null;
 
     return user;
+  }
+
+  async register(input: RegisterInput, ctx: GqlContext) {
+    const existing = await this.usersService.findByEmail(input.email);
+    if (existing) {
+      throw new ConflictException('User already exists');
+    }
+
+    const passwordHash = await this.usersService.hashPassword(input.password);
+
+    const user = await this.usersService.create({
+      email: input.email,
+      name: input.name,
+      passwordHash,
+    });
+
+    const session = await this.prisma.session.create({
+      data: {
+        userId: user.id,
+        refreshTokenHash: 'temp',
+        userAgent: ctx.req.headers['user-agent'],
+        ip: ctx.req.ip,
+      },
+    });
+
+    const { accessToken, refreshToken } = await this.generateTokens({
+      sub: user.id,
+      email: user.email,
+      sessionId: session.id,
+    });
+
+    return { user, session, accessToken, refreshToken };
   }
 }

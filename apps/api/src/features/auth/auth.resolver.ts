@@ -9,6 +9,8 @@ import type { GqlUser, JwtPayload } from './types';
 import { CurrentUser } from './current-user.decorator';
 import { CsrfGuard } from './guards';
 import { SessionGQL } from '@app/features/auth/model';
+import { LoginInput, RegisterInput } from '@app/features/auth/dto';
+import { CSRF_TOKEN } from '@libs/constants/cookies-keys';
 
 @Resolver()
 export class AuthResolver {
@@ -19,16 +21,11 @@ export class AuthResolver {
   ) {}
 
   @Mutation(() => Boolean)
-  async login(
-    @Args('email') email: string,
-    @Args('password') password: string,
-    @Context() ctx: GqlContext,
-  ) {
-    const { accessToken, refreshToken } = await this.authService.login(
-      email,
-      password,
-      ctx,
-    );
+  async login(@Args('input') input: LoginInput, @Context() ctx: GqlContext) {
+    const { accessToken, refreshToken } = await this.authService.login(input, {
+      userAgent: ctx.req.headers['user-agent'],
+      ip: ctx.req.ip,
+    });
 
     // refreshToken httpOnly cookie
     ctx.res.cookie('refreshToken', refreshToken, {
@@ -38,15 +35,16 @@ export class AuthResolver {
       path: '/graphql',
     });
 
-    ctx.res.setHeader('Authorization', `Bearer ${accessToken}`);
-
     const csrfToken = randomUUID();
-    ctx.res.cookie('csrfToken', csrfToken, {
+    ctx.res.cookie(CSRF_TOKEN, csrfToken, {
       httpOnly: false,
       secure: process.env.NODE_ENV === 'production',
       sameSite: 'lax',
       path: '/',
     });
+
+    ctx.res.setHeader('Authorization', `Bearer ${accessToken}`);
+    ctx.res.setHeader('Access-Control-Expose-Headers', 'Authorization');
 
     return true;
   }
@@ -71,6 +69,7 @@ export class AuthResolver {
     });
 
     ctx.res.setHeader('Authorization', `Bearer ${accessToken}`);
+    ctx.res.setHeader('Access-Control-Expose-Headers', 'Authorization');
     return true;
   }
 
@@ -80,6 +79,37 @@ export class AuthResolver {
     await this.authService.logout(user.sessionId);
 
     ctx.res.clearCookie('refreshToken', { path: '/graphql' });
+    return true;
+  }
+
+  @Mutation(() => Boolean)
+  async register(
+    @Args('input') input: RegisterInput,
+    @Context() ctx: GqlContext,
+  ) {
+    const { accessToken, refreshToken } = await this.authService.register(
+      input,
+      ctx,
+    );
+
+    // refreshToken httpOnly cookie
+    ctx.res.cookie('refreshToken', refreshToken, {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === 'production',
+      sameSite: 'lax',
+      path: '/graphql',
+    });
+
+    const csrfToken = randomUUID();
+    ctx.res.cookie(CSRF_TOKEN, csrfToken, {
+      httpOnly: false,
+      secure: process.env.NODE_ENV === 'production',
+      sameSite: 'lax',
+      path: '/',
+    });
+
+    ctx.res.setHeader('Authorization', `Bearer ${accessToken}`);
+    ctx.res.setHeader('Access-Control-Expose-Headers', 'Authorization');
     return true;
   }
 

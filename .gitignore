@@ -27,6 +27,7 @@ dist/
 
 # Turborepo
 .cache/
+.turbo
 
 # Prisma
 prisma/generated/
@@ -43,3 +44,7 @@ prisma/generated/
 *.db-journal
 
 .ai
+
+# Generated GraphQL
+packages/graphql-schema/schema.gql
+apps/web/src/stores/graphqlApi.ts

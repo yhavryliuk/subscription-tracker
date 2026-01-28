@@ -1,0 +1,6 @@
+@reference "tailwindcss";
+
+.navLogo {
+  @apply my-auto text-lg font-bold text-gray-800 text-shadow-md text-shadow-gray-200;
+  @apply hover:text-shadow-lg;
+}

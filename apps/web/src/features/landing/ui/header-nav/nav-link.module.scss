@@ -1,0 +1,7 @@
+@reference "tailwindcss";
+
+.navLink {
+    @apply p-4 text-shadow-sm text-shadow-gray-800;
+    @apply bg-gradient-to-r from-neutral-200/20 to-neutral-500/10;
+    @apply hover:from-neutral-200/40 hover:text-shadow-lg;
+}

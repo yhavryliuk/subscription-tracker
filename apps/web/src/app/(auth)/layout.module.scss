@@ -1,0 +1,12 @@
+@reference "tailwindcss";
+
+.authContent {
+  @apply min-h-screen;
+  @apply flex flex-col justify-center items-center;
+}
+
+.contentWrapper {
+  @apply rounded-md overflow-hidden bg-gray-800/50 px-4 pt-4 pb-6;
+  @apply shadow-md shadow-gray-200/10;
+  @apply hover:shadow-lg focus-within:shadow-lg;
+}

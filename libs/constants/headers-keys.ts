@@ -1,0 +1,1 @@
+export const CSRF_HEADERS_KEY = 'x-csrf-token';

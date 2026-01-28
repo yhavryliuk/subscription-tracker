@@ -44,7 +44,7 @@ export class SubscriptionService {
     return this.prisma.subscription.create({
       data: {
         ...input,
-        user: { connect: { id: userId } }, // привязываем к текущему пользователю
+        user: { connect: { id: userId } },
       },
     });
   }

@@ -19,7 +19,9 @@
       }
     ],
     "paths": {
-      "@/*": ["./src/*"]
+      "@/*": ["./src/*"],
+      "@libs/*": ["../../libs/*"],
+      "@repo/ui": ["../../packages/ui/src"]
     }
   },
   "include": [

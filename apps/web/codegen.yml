@@ -1,0 +1,14 @@
+schema: ../../packages/graphql-schema/schema.gql
+documents: ./src/features/**/*.graphql
+generates:
+  ./src/shared/api/graphql/graphqlApi.ts:
+    plugins:
+      - typescript
+      - typescript-operations
+      - typed-document-node
+    config:
+      avoidOptionals: true
+      immutableTypes: true
+      enumsAsTypes: true
+      nonOptionalTypename: true
+      skipTypename: false

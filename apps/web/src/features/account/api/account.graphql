@@ -1,0 +1,9 @@
+query mySessions {
+    mySessions {
+        id,
+        isCurrent,
+        device,
+        createdAt,
+        userAgent
+    }
+}

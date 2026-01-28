@@ -1,11 +1,28 @@
 {
-  "": "https://turborepo.org/schema.json",
-  "pipeline": {
+  "$schema": "https://turborepo.org/schema.json",
+  "ui": "tui",
+  "tasks": {
     "build": {
-      "dependsOn": ["^build"],
       "outputs": ["dist/**"]
     },
+    "api#graphql:sync": {
+      "outputs": ["packages/graphql-schema/schema.gql"]
+    },
+    "web#graphql:sync": {
+      "dependsOn": ["api#graphql:sync"],
+      "outputs": ["apps/web/src/store/graphqlApi.ts"]
+    },
     "lint": {},
-    "test": {}
+    "test": {},
+    "storybook": {
+      "cache": false
+    },
+    "build-storybook": {
+      "outputs": ["storybook-static/**"]
+    },
+    "dev": {
+      "cache": false,
+      "persistent": true
+    }
   }
 }

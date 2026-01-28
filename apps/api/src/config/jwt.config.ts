@@ -10,6 +10,7 @@ export type JwtConfig = {
 export default registerAs<JwtConfig>('jwt', () => ({
   accessSecret: process.env.JWT_ACCESS_SECRET!,
   refreshSecret: process.env.JWT_REFRESH_SECRET!,
-  accessTtlSec: 900,
+  //accessTtlSec: 900,
+  accessTtlSec: 5,
   refreshTtlSec: 604800,
 }));

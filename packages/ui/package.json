@@ -1,0 +1,29 @@
+{
+  "name": "@repo/ui",
+  "private": true,
+  "exports": {
+    "./*": "./src/*.tsx"
+  },
+  "scripts": {
+    "lint": "biome check",
+    "format": "biome format --write",
+    "generate:component": "turbo gen react-component",
+    "check-types": "tsc --noEmit"
+  },
+  "devDependencies": {
+    "@biomejs/biome": "2.2.0",
+    "@repo/biome-config": "workspace:*",
+    "@repo/typescript-config": "workspace:*",
+    "@types/lodash.debounce": "^4.0.9",
+    "@types/node": "^22.15.3",
+    "@types/react": "19.2.2",
+    "@types/react-dom": "19.2.2",
+    "next": "16.1.1",
+    "typescript": "5.9.2"
+  },
+  "dependencies": {
+    "lodash.debounce": "^4.0.8",
+    "react": "19.2.3",
+    "react-dom": "19.2.3"
+  }
+}

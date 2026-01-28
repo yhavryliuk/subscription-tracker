@@ -1,0 +1,14 @@
+{
+  "name": "@repo/biome-config",
+  "version": "0.0.0",
+  "type": "module",
+  "private": true,
+  "exports": {
+    "./biome": "./biome.json"
+  },
+  "devDependencies": {
+    "globals": "^16.5.0",
+    "typescript": "^5.9.2",
+    "@biomejs/biome": "2.2.0"
+  }
+}
