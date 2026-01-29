@@ -8,18 +8,26 @@
     "lint": "biome check",
     "format": "biome format --write",
     "generate:component": "turbo gen react-component",
-    "check-types": "tsc --noEmit"
+    "check-types": "tsc --noEmit",
+    "test": "vitest run",
+    "test:watch": "vitest"
   },
   "devDependencies": {
     "@biomejs/biome": "2.2.0",
     "@repo/biome-config": "workspace:*",
     "@repo/typescript-config": "workspace:*",
+    "@testing-library/jest-dom": "^6.8.0",
+    "@testing-library/react": "^16.3.0",
+    "@testing-library/user-event": "^14.6.1",
     "@types/lodash.debounce": "^4.0.9",
     "@types/node": "^22.15.3",
     "@types/react": "19.2.2",
     "@types/react-dom": "19.2.2",
+    "jsdom": "^26.1.0",
     "next": "16.1.1",
-    "typescript": "5.9.2"
+    "typescript": "5.9.2",
+    "vite": "^7.1.5",
+    "vitest": "^3.2.4"
   },
   "dependencies": {
     "lodash.debounce": "^4.0.8",
