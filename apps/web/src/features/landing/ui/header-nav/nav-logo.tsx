@@ -1,5 +1,5 @@
-import styles from "./nav-logo.module.scss";
 import Link from "next/link";
+import styles from "./nav-logo.module.scss";
 
 export const NavLogo = () => {
   return (

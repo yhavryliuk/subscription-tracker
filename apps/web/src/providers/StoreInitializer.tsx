@@ -1,12 +1,12 @@
-'use client';
+"use client";
 
 import { useEffect } from "react";
 import {
   initFromStorage,
-  UserShortInfo,
+  type UserShortInfo,
 } from "@/features/account/model/account.slice";
-import { storage, StorageKeys } from "@/shared/lib/storage";
 import { useAppDispatch } from "@/shared/hooks/store-hooks";
+import { StorageKeys, storage } from "@/shared/lib/storage";
 
 // To avoid rehydration errors
 export const StoreInitializer = () => {

@@ -1,5 +1,5 @@
-import { TypedDocumentNode } from "@graphql-typed-document-node/core";
-import { print, GraphQLError } from "graphql";
+import type { TypedDocumentNode } from "@graphql-typed-document-node/core";
+import { type GraphQLError, print } from "graphql";
 import { LoginDocument } from "@/shared/api/graphql/graphqlApi";
 import { setAccessToken } from "@/shared/lib/auth";
 

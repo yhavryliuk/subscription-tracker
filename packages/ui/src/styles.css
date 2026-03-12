@@ -1,0 +1,23 @@
+@import "tailwindcss";
+
+@theme {
+  --color-sidebar-bg: var(--v-color-primary);
+  --color-sidebar-text: var(--v-color-sidebar-text);
+}
+
+:root {
+  --v-color-primary: var(--color-gray-900);
+  --v-color-sidebar-text: var(--color-gray-100);
+}
+
+:root[data-theme="dark"] {
+  --v-color-primary: var(--color-gray-100);
+  --v-color-sidebar-text: var(--color-gray-900);
+}
+
+:root[data-theme="retro"] {
+  --v-color-primary: #ffffff;
+}
+
+@custom-variant dark (&:where([data-theme="dark"], [data-theme="dark"] *));
+@custom-variant retro (&:where([data-theme="retro"], [data-theme="retro"] *));

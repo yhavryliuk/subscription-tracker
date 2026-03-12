@@ -2,7 +2,7 @@ export const getItem = <T = unknown>(
   key: string,
   isPersistent = false,
 ): T | undefined => {
-  let value = undefined;
+  let value;
 
   try {
     value = isPersistent
@@ -51,7 +51,7 @@ export const storage = {
   popItem,
   removeItem,
   setItem,
-}
+};
 
 export enum StorageKeys {
   IS_MOBILE_SIDEBAR_OPEN = "IS_MOBILE_SIDEBAR_OPEN",

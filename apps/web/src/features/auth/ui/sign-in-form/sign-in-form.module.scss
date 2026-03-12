@@ -1,7 +1,0 @@
-@reference "tailwindcss";
-
-.input {
-  @apply border-2 w-full px-2 py-1 rounded-sm border-gray-800/50 outline-none;
-  @apply hover:border-gray-200/50 active:border-gray-200/50 focus:border-gray-200/50;
-  @apply placeholder-gray-200/50 text-gray-200/90;
-}

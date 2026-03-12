@@ -7,9 +7,10 @@ export function useGetUsersQuery(enabled = true) {
     queryKey: ["users"],
     enabled,
     retry: false,
-    queryFn: () => safeGraphqlFetch(GetUsersDocument, undefined, {
-      auth: true,
-    }),
-    refetchOnWindowFocus: false
+    queryFn: () =>
+      safeGraphqlFetch(GetUsersDocument, undefined, {
+        auth: true,
+      }),
+    refetchOnWindowFocus: false,
   });
 }

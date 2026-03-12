@@ -5,7 +5,6 @@ import {
   Args,
   ResolveField,
   Parent,
-  Context,
 } from '@nestjs/graphql';
 import { UsersService } from './users.service';
 import { UserGQL } from './user.model';
@@ -14,7 +13,6 @@ import { SubscriptionService } from '../subscriptions/subscriptions.service';
 import { SubscriptionGQL } from '../subscriptions/subscription.model';
 import { UseGuards } from '@nestjs/common';
 import { GqlAuthGuard } from '@app/features/auth/guards';
-import type { GqlContext } from '@app/graphql';
 
 @Resolver(() => UserGQL)
 export class UsersResolver {
@@ -25,8 +23,7 @@ export class UsersResolver {
 
   @UseGuards(GqlAuthGuard)
   @Query(() => [UserGQL])
-  async users(@Context() ctx: GqlContext) {
-    //console.log('ctx.req.cookies', ctx.req.cookies, ctx.req.headers['authorization']);
+  async users() {
     return this.usersService.findAll();
   }
 

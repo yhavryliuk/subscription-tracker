@@ -1,13 +1,13 @@
-import { useMutation, useQuery } from "@tanstack/react-query";
-import { graphqlFetch } from "@/shared/api/graphql/graphqlFetch";
+import { useMutation } from "@tanstack/react-query";
 import {
   LoginDocument,
-  LoginMutation,
-  LoginMutationVariables,
+  type LoginMutation,
+  type LoginMutationVariables,
   RegisterDocument,
-  RegisterMutation,
-  RegisterMutationVariables,
+  type RegisterMutation,
+  type RegisterMutationVariables,
 } from "@/shared/api/graphql/graphqlApi";
+import { graphqlFetch } from "@/shared/api/graphql/graphqlFetch";
 
 export const useRegister = () => {
   return useMutation({

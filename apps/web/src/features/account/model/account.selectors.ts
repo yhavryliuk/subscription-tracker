@@ -1,14 +1,18 @@
 import { createSelector } from "@reduxjs/toolkit";
-import { RootState } from "@/stores";
+import type { RootState } from "@/stores";
 
-const selectAccount =(state: RootState) => state.account;
+const selectAccountState = (state: RootState) => state.account;
 
 export const getIsMobileSidebarOpened = createSelector(
-  selectAccount,
+  selectAccountState,
   (account) => account.isMobileSidebarOpened,
 );
 
 export const getUserShortInfo = createSelector(
-  selectAccount,
+  selectAccountState,
   (account) => account.userShortInfo,
 );
+
+export const getUsername = createSelector(getUserShortInfo, (userShortInfo) => {
+  return userShortInfo?.email;
+});

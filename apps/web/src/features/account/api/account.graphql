@@ -1,9 +1,9 @@
 query mySessions {
-    mySessions {
-        id,
-        isCurrent,
-        device,
-        createdAt,
-        userAgent
-    }
+  mySessions {
+    id
+    isCurrent
+    device
+    createdAt
+    userAgent
+  }
 }

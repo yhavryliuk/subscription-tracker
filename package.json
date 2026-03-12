@@ -2,10 +2,12 @@
   "name": "subscription-tracker",
   "private": true,
   "scripts": {
-    "dev": "turbo run dev",
+    "dev": "turbo run dev --filter=!storybook",
     "api:dev": "pnpm --filter api dev",
     "web:dev": "pnpm --filter web dev",
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "turbo run test",
+    "ui:test": "pnpm --filter ui test",
+    "storybook": "pnpm --filter storybook storybook",
     "prisma:dev": "pnpm prisma migrate dev --name init",
     "graphql:sync": "turbo run graphql:sync --force"
   },

@@ -6,6 +6,7 @@
     "dev": "PORT=4000 next dev",
     "build": "next build",
     "start": "next start",
+    "biome:watch": "biome check --write --no-errors-on-unmatched ./ || true",
     "lint": "biome check",
     "format": "biome format --write",
     "codegen": "graphql-codegen",

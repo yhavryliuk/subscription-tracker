@@ -20,8 +20,7 @@
     ],
     "paths": {
       "@/*": ["./src/*"],
-      "@libs/*": ["../../libs/*"],
-      "@repo/ui": ["../../packages/ui/src"]
+      "@libs/*": ["../../libs/*"]
     }
   },
   "include": [

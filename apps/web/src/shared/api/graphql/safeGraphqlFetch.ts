@@ -1,17 +1,17 @@
-import { TypedDocumentNode } from "@graphql-typed-document-node/core";
-import { graphqlFetch } from "./graphqlFetch";
+import type { TypedDocumentNode } from "@graphql-typed-document-node/core";
+import { CSRF_TOKEN } from "@libs/constants/cookies-keys";
+import { CSRF_HEADERS_KEY } from "@libs/constants/headers-keys";
 import {
   RefreshTokenDocument,
-  RefreshTokenMutation,
-  RefreshTokenMutationVariables,
+  type RefreshTokenMutation,
+  type RefreshTokenMutationVariables,
 } from "@/shared/api/graphql/graphqlApi";
-import { CSRF_HEADERS_KEY } from "@libs/constants/headers-keys";
-import { CSRF_TOKEN } from "@libs/constants/cookies-keys";
 import {
   getAccessToken,
   isAccessTokenExpired,
   setAccessToken,
 } from "@/shared/lib/auth";
+import { graphqlFetch } from "./graphqlFetch";
 
 let refreshingToken: Promise<string> | null = null;
 
@@ -29,7 +29,9 @@ async function refreshToken(): Promise<unknown> {
     refreshingToken = graphqlFetch<
       RefreshTokenMutation,
       RefreshTokenMutationVariables
-    >(RefreshTokenDocument, undefined, { [CSRF_HEADERS_KEY]: getCsrfFromCookie() })
+    >(RefreshTokenDocument, undefined, {
+      [CSRF_HEADERS_KEY]: getCsrfFromCookie(),
+    })
       .then((data) => {
         const authHeader = data.response?.headers?.get?.("authorization");
         if (authHeader) {
@@ -49,7 +51,7 @@ async function refreshToken(): Promise<unknown> {
 }
 
 export interface SafeGraphqlFetchOptions {
-  auth?: boolean; /* Is request need auth header  */
+  auth?: boolean /* Is request need auth header  */;
 }
 
 export async function safeGraphqlFetch<T, V>(

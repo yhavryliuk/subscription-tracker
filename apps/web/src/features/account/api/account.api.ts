@@ -1,7 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
-import {
-  MySessionsDocument,
-} from "@/shared/api/graphql/graphqlApi";
+import { MySessionsDocument } from "@/shared/api/graphql/graphqlApi";
 import { safeGraphqlFetch } from "@/shared/api/graphql/safeGraphqlFetch";
 
 export const useMySessions = (enabled = true) => {

@@ -6,6 +6,7 @@ Monorepo for a subscription tracking app with a Next.js web client and a NestJS 
 
 - `apps/web` - Next.js App Router UI
 - `apps/api` - NestJS GraphQL API
+- `apps/storybook` - UI Library Storybook
 
 ## Tech Stack
 
@@ -37,6 +38,8 @@ pnpm dev           # run all dev servers via turbo
 pnpm web:dev       # run Next.js app only
 pnpm api:dev       # run API only
 pnpm graphql:sync  # sync GraphQL types
+pnpm test          # run all tests
+pnpm ui:test       # run tests for ui library
 ```
 
 ## Environment
@@ -49,5 +52,12 @@ cp apps/api/.env.example apps/api/.env
 ```
 
 ## TODO
+### All
 - CI/CD
-- Tests
+- Tests (unit/e2e)
+- i18n
+
+### api#NestJS
+- Seeds
+- Roles
+- Fastify

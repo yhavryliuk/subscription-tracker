@@ -1,7 +1,7 @@
-'use client';
+"use client";
 
-import { SignInForm } from "@/features/auth/ui/sign-in-form";
+import { SignInForm } from "@/features/auth/ui/signInForm";
 
 export default function SignInPage() {
-    return <SignInForm />;
+  return <SignInForm />;
 }

@@ -1,6 +1,6 @@
-import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { storage, StorageKeys } from "@/shared/lib/storage";
+import { createSlice, type PayloadAction } from "@reduxjs/toolkit";
 import { mergeDefined } from "@/shared/helpers/merge-defined";
+import { StorageKeys, storage } from "@/shared/lib/storage";
 
 export interface UserShortInfo {
   email: string;

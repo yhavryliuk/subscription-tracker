@@ -1,9 +1,8 @@
-import React, { JSX } from "react";
-import { NavLink } from "./nav-link";
+import React, { type JSX } from "react";
 import { NavLogo } from "@/features/landing/ui/header-nav/nav-logo";
+import { NavLink } from "./nav-link";
 
 export const HeaderNav = (): JSX.Element => {
-
   return (
     <nav className="flex px-5 bg-amber-500 dark:bg-gray-800">
       <NavLogo />
@@ -13,4 +12,4 @@ export const HeaderNav = (): JSX.Element => {
       </div>
     </nav>
   );
-}
+};

@@ -1,11 +1,11 @@
-import { NextFetchEvent, NextResponse } from 'next/server'
-import type { NextRequest } from 'next/server'
 import { cookies } from "next/headers";
+import type { NextRequest } from "next/server";
+import { NextFetchEvent, NextResponse } from "next/server";
 
 // This function can be marked `async` if using `await` inside
 export async function proxy(request: NextRequest) {
-    //console.log("request.nextUrl.basePath", request.nextUrl.pathname);
-    /*const response = NextResponse.next();
+  //console.log("request.nextUrl.basePath", request.nextUrl.pathname);
+  /*const response = NextResponse.next();
     // Or, for middleware to proceed:
     // const response = NextResponse.next();
 
@@ -27,5 +27,5 @@ export async function proxy(request: NextRequest) {
 // export default function proxy(request: NextRequest) { ... }
 
 export const config = {
-    matcher: '/account/:path*',
-}
+  matcher: "/account/:path*",
+};
