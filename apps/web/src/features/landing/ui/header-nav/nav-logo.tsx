@@ -1,9 +1,12 @@
 import Link from "next/link";
-import styles from "./nav-logo.module.scss";
 
 export const NavLogo = () => {
   return (
-    <Link className={styles.navLogo} href="/">
+    <Link
+      className="inline-flex items-center gap-2 text-sm font-semibold text-slate-900 tracking-tight"
+      href="/"
+    >
+      <span className="size-2.5 rounded-full bg-emerald-500" />
       Subscription Tracker
     </Link>
   );
