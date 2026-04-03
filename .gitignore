@@ -48,3 +48,7 @@ prisma/generated/
 # Generated GraphQL
 packages/graphql-schema/schema.gql
 apps/web/src/stores/graphqlApi.ts
+ 
+# GitHub Copilot / custom agent files
+.github/copilot-instructions.md
+.github/skills/
