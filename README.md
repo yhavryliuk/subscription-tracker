@@ -24,12 +24,40 @@ Monorepo for a subscription tracking app with a Next.js web client and a NestJS 
 
 ## Getting Started
 
+### Prerequisites
+- Node.js >= 20
+- PNPM 10.28.0+
+- Docker and Docker Compose
+
+### Installation & Running
+
 ```bash
+# Install dependencies
 pnpm install
+
+# Start services (PostgreSQL + Redis in Docker)
+pnpm docker:up
+
+# Run all dev servers
 pnpm dev
 ```
 
-Web runs on port 4000 by default. API runs on its own port defined in `apps/api/.env`.
+Web runs on port 4000 by default. API runs on port 3000.
+
+Alternatively, run services separately:
+```bash
+pnpm api:dev       # run API only (requires Docker services running)
+pnpm web:dev       # run web only (requires API running)
+```
+
+### Docker Commands
+
+```bash
+pnpm docker:up     # start PostgreSQL & Redis
+pnpm docker:down   # stop services
+pnpm docker:reset  # reset databases (deletes volumes)
+pnpm docker:logs   # view service logs
+```
 
 ## Scripts
 

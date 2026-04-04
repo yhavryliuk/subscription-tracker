@@ -2,14 +2,18 @@
   "name": "subscription-tracker",
   "private": true,
   "scripts": {
-    "dev": "turbo run dev --filter=!storybook",
-    "api:dev": "pnpm --filter api dev",
-    "web:dev": "pnpm --filter web dev",
+    "dev": "docker-compose up -d && turbo run dev --filter=!storybook",
+    "api:dev": "docker-compose up -d && pnpm --filter api dev",
+    "web:dev": "docker-compose up -d && pnpm --filter web dev",
     "test": "turbo run test",
     "ui:test": "pnpm --filter ui test",
     "storybook": "pnpm --filter storybook storybook",
-    "prisma:dev": "pnpm prisma migrate dev --name init",
-    "graphql:sync": "turbo run graphql:sync --force"
+    "prisma:dev": "pnpm --filter api prisma migrate dev",
+    "graphql:sync": "turbo run graphql:sync --force",
+    "docker:up": "docker-compose up -d",
+    "docker:down": "docker-compose down",
+    "docker:reset": "docker-compose down && docker volume rm subscription-tracker_pgdata subscription-tracker_redisdata 2>/dev/null || true",
+    "docker:logs": "docker-compose logs -f"
   },
   "packageManager": "pnpm@10.28.0",
   "devDependencies": {
