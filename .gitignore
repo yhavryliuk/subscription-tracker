@@ -52,3 +52,5 @@ apps/web/src/stores/graphqlApi.ts
 # GitHub Copilot / custom agent files
 .github/copilot-instructions.md
 .github/skills/
+.agents/
+skills-lock.json
