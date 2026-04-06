@@ -6,6 +6,9 @@
     "dev": "PORT=4000 next dev",
     "build": "next build",
     "start": "next start",
+    "cypress:open": "cypress open",
+    "cypress:run": "cypress run",
+    "e2e": "pnpm run cypress:run",
     "biome:watch": "biome check --write --no-errors-on-unmatched ./ || true",
     "lint": "biome check",
     "format": "biome format --write",
@@ -47,6 +50,7 @@
     "@types/react": "^19",
     "@types/react-dom": "^19",
     "babel-plugin-react-compiler": "1.0.0",
+    "cypress": "^15.13.0",
     "graphql": "^16.12.0",
     "tailwindcss": "^4",
     "typescript": "^5"
