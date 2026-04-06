@@ -2,6 +2,7 @@ import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import { envValidationSchema } from './env.validation';
 import throttlerConfigFactory from './throttler-config';
+import cacheConfigFactory from './cache.config';
 import { ThrottlerConfigService } from './throttler.service';
 
 @Module({
@@ -10,7 +11,7 @@ import { ThrottlerConfigService } from './throttler.service';
       isGlobal: true,
       envFilePath: '.env',
       validationSchema: envValidationSchema,
-      load: [throttlerConfigFactory],
+      load: [throttlerConfigFactory, cacheConfigFactory],
     }),
   ],
   providers: [ThrottlerConfigService],

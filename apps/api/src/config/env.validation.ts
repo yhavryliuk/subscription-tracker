@@ -5,6 +5,10 @@ export type NodeEnv = 'development' | 'production' | 'test';
 interface JwtEnvVars {
   DATABASE_URL: string;
   REDIS_URL?: string;
+  CACHE_TTL_MS?: number;
+  CACHE_NAMESPACE?: string;
+  CACHE_KEY_PREFIX?: string;
+  REDIS_CONNECTION_TIMEOUT_MS?: number;
   JWT_ACCESS_SECRET: string;
   JWT_REFRESH_SECRET: string;
   PORT?: number;
@@ -21,6 +25,10 @@ interface JwtEnvVars {
 export const envValidationSchema = Joi.object<JwtEnvVars>({
   DATABASE_URL: Joi.string().uri().required(),
   REDIS_URL: Joi.string().uri().optional(),
+  CACHE_TTL_MS: Joi.number().positive().optional().default(60000),
+  CACHE_NAMESPACE: Joi.string().trim().min(1).optional().default('api-cache'),
+  CACHE_KEY_PREFIX: Joi.string().trim().min(1).optional().default('st'),
+  REDIS_CONNECTION_TIMEOUT_MS: Joi.number().positive().optional().default(2000),
 
   JWT_ACCESS_SECRET: Joi.string().min(32).required(),
   JWT_REFRESH_SECRET: Joi.string().min(32).required(),

@@ -8,6 +8,7 @@ import { APP_GUARD } from '@nestjs/core';
 import { PrismaModule } from '@app/prisma';
 import { AppConfigModule } from '@app/config';
 import { ThrottlerConfigService } from '@app/config';
+import { AppCacheModule } from '@app/cache';
 import { GqlThrottlerGuard } from '@app/graphql/gql-throttler.guard';
 import { UsersModule } from '@app/features/users';
 import { GqlContext } from '@app/graphql';
@@ -17,6 +18,7 @@ import { AuthModule } from '@app/features/auth';
 @Module({
   imports: [
     AppConfigModule,
+    AppCacheModule,
     ThrottlerModule.forRootAsync({
       imports: [AppConfigModule],
       useClass: ThrottlerConfigService,
