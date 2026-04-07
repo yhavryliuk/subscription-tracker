@@ -79,6 +79,15 @@ cp apps/web/.env.example apps/web/.env
 cp apps/api/.env.example apps/api/.env
 ```
 
+## Project Status
+
+This project is in active development. Core features are implemented and the architecture is stable, but some parts are still being improved.
+
+Current priorities:
+- security hardening (auth/session policies)
+- test coverage (unit and e2e)
+- CI/CD pipeline and deployment documentation
+
 ## TODO
 ### All
 - CI/CD
