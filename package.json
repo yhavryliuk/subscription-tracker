@@ -8,6 +8,7 @@
     "test": "turbo run test",
     "ui:test": "pnpm --filter ui test",
     "storybook": "pnpm --filter storybook storybook",
+    "prisma:generate": "pnpm --filter api prisma:generate",
     "prisma:dev": "pnpm --filter api prisma migrate dev",
     "graphql:sync": "turbo run graphql:sync --force",
     "docker:up": "docker-compose up -d",
