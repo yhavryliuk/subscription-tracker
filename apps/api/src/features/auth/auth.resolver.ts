@@ -11,7 +11,6 @@ import { CurrentUser } from './current-user.decorator';
 import { CsrfGuard } from './guards';
 import { SessionGQL } from '@app/features/auth/model';
 import { LoginInput, RegisterInput } from '@app/features/auth/dto';
-import { CSRF_TOKEN } from '@libs/constants/cookies-keys';
 
 @Resolver()
 export class AuthResolver {
@@ -42,7 +41,7 @@ export class AuthResolver {
     });
 
     const csrfToken = randomUUID();
-    ctx.res.cookie(CSRF_TOKEN, csrfToken, {
+    ctx.res.cookie("csrfToken", csrfToken, {
       httpOnly: false,
       secure: process.env.NODE_ENV === 'production',
       sameSite: 'lax',
@@ -112,7 +111,7 @@ export class AuthResolver {
     });
 
     const csrfToken = randomUUID();
-    ctx.res.cookie(CSRF_TOKEN, csrfToken, {
+    ctx.res.cookie("csrfToken", csrfToken, {
       httpOnly: false,
       secure: process.env.NODE_ENV === 'production',
       sameSite: 'lax',

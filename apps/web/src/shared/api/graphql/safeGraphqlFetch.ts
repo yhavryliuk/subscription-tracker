@@ -1,6 +1,4 @@
 import type { TypedDocumentNode } from "@graphql-typed-document-node/core";
-import { CSRF_TOKEN } from "@libs/constants/cookies-keys";
-import { CSRF_HEADERS_KEY } from "@libs/constants/headers-keys";
 import {
   RefreshTokenDocument,
   type RefreshTokenMutation,
@@ -19,7 +17,7 @@ function getCsrfFromCookie(): string {
   return (
     document.cookie
       .split("; ")
-      .find((row) => row.startsWith(`${CSRF_TOKEN}=`))
+      .find((row) => row.startsWith(`csrfToken=`))
       ?.split("=")[1] ?? ""
   );
 }
@@ -30,7 +28,7 @@ async function refreshToken(): Promise<unknown> {
       RefreshTokenMutation,
       RefreshTokenMutationVariables
     >(RefreshTokenDocument, undefined, {
-      [CSRF_HEADERS_KEY]: getCsrfFromCookie(),
+      ["x-csrf-token"]: getCsrfFromCookie(),
     })
       .then((data) => {
         const authHeader = data.response?.headers?.get?.("authorization");
