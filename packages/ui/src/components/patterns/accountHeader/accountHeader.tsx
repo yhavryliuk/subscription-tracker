@@ -1,37 +1,43 @@
-import clsx from "clsx";
+import { Menu } from "lucide-react";
 import type React from "react";
-import { useEffect, useTransition } from "react";
-import { AppearsOpacity } from "@/components/atoms/appears-opacity";
-import { isBrowser } from "@/utils/isBrowser";
+import {
+  ThemeSwitcher,
+  type ThemeSwitcherProps,
+} from "@/components/atoms/theme-switcher/theme-switcher";
+import type { ThemeMode } from "@/theme/types";
 
 export type AccountHeaderProps = {
   userName?: string;
   handleOpenMenu: () => void;
+  themeMode: ThemeMode;
+  onThemeModeChange: ThemeSwitcherProps["onValueChange"];
 };
 
 export const AccountHeader: React.FC<AccountHeaderProps> = ({
   userName,
   handleOpenMenu,
+  themeMode,
+  onThemeModeChange,
 }) => {
   return (
-    <header className="h-16 bg-white border-b flex items-center px-4 gap-4 border-b-gray-300">
+    <header className="h-16 border-b border-border bg-card/80 backdrop-blur flex items-center px-4 gap-4">
       <button
         type="button"
-        className="md:hidden"
+        className="md:hidden inline-flex items-center justify-center rounded-md border border-border p-2 hover:bg-muted"
         onClick={handleOpenMenu}
         aria-label="Open menu"
       >
-        {/* TODO: add lucid react package and remove testing div */}
-        <div className="inline-block w-6 h-6 rounded-full bg-red-400">
-          open menu
-        </div>
+        <Menu className="size-4" />
       </button>
 
-      <div className="text-gray-500">
-        <div className="font-semibold text-lg">Dashboard</div>
+      <div className="text-foreground">
+        <div className="font-semibold text-lg tracking-tight">Dashboard</div>
       </div>
 
-      <div className="ml-auto text-sm text-gray-500">{userName}</div>
+      <div className="ml-auto flex items-center gap-3">
+        <ThemeSwitcher value={themeMode} onValueChange={onThemeModeChange} />
+        <div className="text-sm text-muted-foreground">{userName}</div>
+      </div>
     </header>
   );
 };

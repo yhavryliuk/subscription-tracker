@@ -1,5 +1,6 @@
 "use client";
 
+import { Button, Input } from "@repo/ui";
 import { useRegisterForm } from "@/features/auth/register/model/useRegisterForm";
 
 export type RegisterFormProps = {
@@ -22,19 +23,44 @@ export function SignUpForm({
   } = useRegisterForm();
 
   return (
-    <form onSubmit={handleSubmit(onRegistrationSubmit)}>
-      <input {...register("email")} placeholder="Email" />
-      {errors.email && <p>{errors.email.message}</p>}
+    <form onSubmit={handleSubmit(onRegistrationSubmit)} className="flex flex-col gap-3">
+      <div className="flex flex-col gap-1">
+        <Input
+          {...register("email")}
+          aria-invalid={Boolean(errors.email)}
+          placeholder="Email"
+          type="email"
+          autoComplete="email"
+        />
+        {errors.email && <p className="text-xs text-red-500">{errors.email.message}</p>}
+      </div>
 
-      <input {...register("name")} placeholder="Name" />
-      {errors.name && <p>{errors.name.message}</p>}
+      <div className="flex flex-col gap-1">
+        <Input
+          {...register("name")}
+          aria-invalid={Boolean(errors.name)}
+          placeholder="Name"
+          autoComplete="name"
+        />
+        {errors.name && <p className="text-xs text-red-500">{errors.name.message}</p>}
+      </div>
 
-      <input type="password" {...register("password")} placeholder="Password" />
-      {errors.password && <p>{errors.password.message}</p>}
+      <div className="flex flex-col gap-1">
+        <Input
+          type="password"
+          {...register("password")}
+          aria-invalid={Boolean(errors.password)}
+          placeholder="Password"
+          autoComplete="new-password"
+        />
+        {errors.password && (
+          <p className="text-xs text-red-500">{errors.password.message}</p>
+        )}
+      </div>
 
-      <button type="submit" disabled={loading}>
+      <Button type="submit" disabled={loading} isLoading={loading} className="w-full">
         Create account
-      </button>
+      </Button>
     </form>
   );
 }

@@ -1,16 +1,14 @@
+import { ThemeSwitcher, type ThemeMode } from "@repo/ui";
 import type { Meta, StoryObj } from "@storybook/nextjs-vite";
 import { useEffect, useState } from "react";
 
-import { AccountHeader, type ThemeMode } from "@repo/ui";
-
-const AccountHeaderPreview = () => {
+const ThemePreview = () => {
   const [themeMode, setThemeMode] = useState<ThemeMode>("system");
 
   useEffect(() => {
     const prefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
     const resolvedTheme =
       themeMode === "system" ? (prefersDark ? "dark" : "light") : themeMode;
-
     document.documentElement.dataset.theme = resolvedTheme;
     document.documentElement.classList.toggle("dark", resolvedTheme === "dark");
 
@@ -21,34 +19,27 @@ const AccountHeaderPreview = () => {
   }, [themeMode]);
 
   return (
-    <AccountHeader
-      userName="example@gmail.com"
-      handleOpenMenu={() => {}}
-      themeMode={themeMode}
-      onThemeModeChange={setThemeMode}
-    />
+    <div className="flex flex-col gap-4">
+      <ThemeSwitcher value={themeMode} onValueChange={setThemeMode} className="w-36" />
+      <p className="text-sm text-muted-foreground">
+        Active mode: <span className="font-medium text-foreground">{themeMode}</span>
+      </p>
+    </div>
   );
 };
 
 const meta = {
-  title: "Patterns/AccountHeader",
-  component: AccountHeader,
+  title: "Atoms/ThemeSwitcher",
+  component: ThemeSwitcher,
   tags: ["autodocs"],
   parameters: {
-    layout: "fullscreen",
+    layout: "centered",
   },
-} satisfies Meta<typeof AccountHeader>;
+} satisfies Meta<typeof ThemeSwitcher>;
 
 export default meta;
 type Story = StoryObj<typeof meta>;
 
-export const Default: Story = {
-  render: () => (
-    <div className="min-h-screen bg-slate-100">
-      <AccountHeaderPreview />
-      <div className="p-6 text-sm text-slate-600">
-        This area represents the account dashboard content.
-      </div>
-    </div>
-  ),
+export const Interactive: Story = {
+  render: () => <ThemePreview />,
 };

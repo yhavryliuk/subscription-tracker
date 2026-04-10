@@ -1,24 +1,45 @@
-import { cva, type VariantProps } from "class-variance-authority";
+import { Loader2 } from "lucide-react";
 import type React from "react";
-import { cn } from "@/utils/cn";
+import {
+  Button as ButtonPrimitive,
+  buttonVariants,
+} from "@/components/ui/button";
 
-const buttonVariants = cva(
-  "inline-flex items-center justify-center rounded px-4 py-2 transition-colors",
-  {
-    variants: {
-      variant: {
-        primary: "bg-app-bg text-app-text border border-app-text",
-        accent: "bg-blue-500 text-white",
-      },
-    },
-    defaultVariants: { variant: "primary" },
-  },
-);
+export interface ButtonProps extends React.ComponentProps<typeof ButtonPrimitive> {
+  isLoading?: boolean;
+  loadingLabel?: string;
+}
 
-export interface ButtonProps
-  extends React.ButtonHTMLAttributes<HTMLButtonElement>,
-    VariantProps<typeof buttonVariants> {}
+export const Button = ({
+  children,
+  isLoading = false,
+  loadingLabel,
+  disabled,
+  ...props
+}: ButtonProps) => {
+  return (
+    <ButtonPrimitive
+      aria-busy={isLoading || undefined}
+      disabled={isLoading || disabled}
+      {...props}
+    >
+      {isLoading ? (
+        <>
+          <Loader2 className="animate-spin" data-icon="inline-start" />
+          {loadingLabel ?? children}
+        </>
+      ) : (
+        children
+      )}
+    </ButtonPrimitive>
+  );
+};
 
-export const Button = ({ className, variant, ...props }: ButtonProps) => (
-  <button className={cn(buttonVariants({ variant, className }))} {...props} />
-);
+export type ButtonVariant = NonNullable<
+  React.ComponentProps<typeof ButtonPrimitive>["variant"]
+>;
+export type ButtonSize = NonNullable<
+  React.ComponentProps<typeof ButtonPrimitive>["size"]
+>;
+
+export { buttonVariants };

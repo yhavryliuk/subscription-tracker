@@ -1,5 +1,6 @@
 "use client";
 
+import { Button, Input } from "@repo/ui";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
@@ -9,7 +10,6 @@ import { useLoginMutation } from "@/shared/api/graphql/graphqlApi";
 import { tokenManager } from "@/shared/lib/token-manager";
 import { setAccessToken } from "@/features/auth/model/auth.slice";
 import { useAppDispatch } from "@/shared/hooks/store-hooks";
-import styles from "./signInForm.module.scss";
 
 const schema = z.object({
   email: z.email("Invalid email"),
@@ -61,11 +61,11 @@ export const SignInForm = () => {
 
       <form onSubmit={onSubmit} className="flex flex-col gap-3">
         <div className="flex flex-col gap-1">
-          <input
-            className={styles.input}
+          <Input
             placeholder="Email"
             type="email"
             autoComplete="email"
+            aria-invalid={Boolean(errors.email)}
             {...register("email")}
           />
           {errors.email && (
@@ -74,11 +74,11 @@ export const SignInForm = () => {
         </div>
 
         <div className="flex flex-col gap-1">
-          <input
-            className={styles.input}
+          <Input
             placeholder="Password"
             type="password"
             autoComplete="current-password"
+            aria-invalid={Boolean(errors.password)}
             {...register("password")}
           />
           {errors.password && (
@@ -88,13 +88,14 @@ export const SignInForm = () => {
           )}
         </div>
 
-        <button
+        <Button
           type="submit"
-          disabled={isSubmitting}
-          className="bg-amber-500 hover:bg-amber-700 disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer p-1 rounded-sm"
+          isLoading={isSubmitting}
+          loadingLabel="Signing in..."
+          className="w-full"
         >
-          {isSubmitting ? "Signing in…" : "Sign In"}
-        </button>
+          Sign In
+        </Button>
       </form>
 
       <div className="text-sm flex gap-4 mt-4">
