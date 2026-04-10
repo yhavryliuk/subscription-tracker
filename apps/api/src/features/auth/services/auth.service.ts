@@ -128,6 +128,20 @@ export class AuthService {
     });
   }
 
+  /**
+   * Revokes a session identified by its refresh token.
+   * Used for logout flows where no access token is available.
+   * Silently ignores invalid / expired tokens.
+   */
+  async revokeRefreshToken(refreshToken: string): Promise<void> {
+    try {
+      const { sessionId } = await this.getRefreshTokenPayload(refreshToken);
+      await this.logout(sessionId);
+    } catch {
+      // Token invalid or already expired — nothing to revoke
+    }
+  }
+
   async logoutAll(userId: string) {
     await this.prisma.session.updateMany({
       where: {

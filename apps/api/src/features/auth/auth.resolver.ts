@@ -32,20 +32,28 @@ export class AuthResolver {
       ip: ctx.req.ip,
     });
 
-    // refreshToken httpOnly cookie
-    ctx.res.cookie('refreshToken', refreshToken, {
+    const cookieDomain = process.env.COOKIE_DOMAIN || undefined;
+    const isProd = process.env.NODE_ENV === 'production';
+    const refreshCookieOpts = {
       httpOnly: true,
-      secure: process.env.NODE_ENV === 'production',
-      sameSite: 'lax',
-      path: '/graphql',
-    });
+      secure: isProd,
+      sameSite: 'lax' as const,
+      // path '/' allows the Next.js refresh-session Route Handler to receive the
+      // cookie on cross-port requests (dev) and cross-subdomain requests (prod).
+      // Security is maintained by httpOnly + sameSite + CsrfGuard on the refresh endpoint.
+      path: '/',
+      ...(cookieDomain ? { domain: cookieDomain } : {}),
+    };
+
+    ctx.res.cookie('refreshToken', refreshToken, refreshCookieOpts);
 
     const csrfToken = randomUUID();
-    ctx.res.cookie("csrfToken", csrfToken, {
+    ctx.res.cookie('csrfToken', csrfToken, {
       httpOnly: false,
-      secure: process.env.NODE_ENV === 'production',
-      sameSite: 'lax',
+      secure: isProd,
+      sameSite: 'lax' as const,
       path: '/',
+      ...(cookieDomain ? { domain: cookieDomain } : {}),
     });
 
     ctx.res.setHeader('Authorization', `Bearer ${accessToken}`);
@@ -66,11 +74,13 @@ export class AuthResolver {
     const { accessToken, refreshToken: newRefresh } =
       await this.authService.refreshTokens(refreshToken);
 
+    const cookieDomain = process.env.COOKIE_DOMAIN || undefined;
     ctx.res.cookie('refreshToken', newRefresh, {
       httpOnly: true,
       secure: process.env.NODE_ENV === 'production',
-      sameSite: 'lax',
-      path: '/graphql',
+      sameSite: 'lax' as const,
+      path: '/',
+      ...(cookieDomain ? { domain: cookieDomain } : {}),
     });
 
     ctx.res.setHeader('Authorization', `Bearer ${accessToken}`);
@@ -83,7 +93,32 @@ export class AuthResolver {
   async logout(@CurrentUser() user: GqlUser, @Context() ctx: GqlContext) {
     await this.authService.logout(user.sessionId);
 
-    ctx.res.clearCookie('refreshToken', { path: '/graphql' });
+    const cookieDomain = process.env.COOKIE_DOMAIN || undefined;
+    ctx.res.clearCookie('refreshToken', {
+      path: '/',
+      ...(cookieDomain ? { domain: cookieDomain } : {}),
+    });
+    return true;
+  }
+
+  /**
+   * Logout using the refresh token cookie — no access token required.
+   * Used when the client cannot obtain a valid access token (expired session,
+   * client-side rate limit, etc.) but still needs to cleanly revoke the session
+   * and remove the httpOnly cookie to prevent redirect loops.
+   */
+  @UseGuards(CsrfGuard)
+  @Mutation(() => Boolean)
+  async logoutSession(@Context() ctx: GqlContext) {
+    const cookies = ctx.req.cookies as { refreshToken?: string };
+    if (cookies.refreshToken) {
+      await this.authService.revokeRefreshToken(cookies.refreshToken);
+    }
+    const cookieDomain = process.env.COOKIE_DOMAIN || undefined;
+    ctx.res.clearCookie('refreshToken', {
+      path: '/',
+      ...(cookieDomain ? { domain: cookieDomain } : {}),
+    });
     return true;
   }
 
@@ -103,19 +138,22 @@ export class AuthResolver {
     );
 
     // refreshToken httpOnly cookie
+    const cookieDomain = process.env.COOKIE_DOMAIN || undefined;
     ctx.res.cookie('refreshToken', refreshToken, {
       httpOnly: true,
       secure: process.env.NODE_ENV === 'production',
-      sameSite: 'lax',
-      path: '/graphql',
+      sameSite: 'lax' as const,
+      path: '/',
+      ...(cookieDomain ? { domain: cookieDomain } : {}),
     });
 
     const csrfToken = randomUUID();
-    ctx.res.cookie("csrfToken", csrfToken, {
+    ctx.res.cookie('csrfToken', csrfToken, {
       httpOnly: false,
       secure: process.env.NODE_ENV === 'production',
-      sameSite: 'lax',
+      sameSite: 'lax' as const,
       path: '/',
+      ...(cookieDomain ? { domain: cookieDomain } : {}),
     });
 
     ctx.res.setHeader('Authorization', `Bearer ${accessToken}`);

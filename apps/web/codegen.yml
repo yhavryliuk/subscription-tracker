@@ -5,10 +5,15 @@ generates:
     plugins:
       - typescript
       - typescript-operations
-      - typed-document-node
+      - typescript-react-query
     config:
       avoidOptionals: true
       immutableTypes: true
       enumsAsTypes: true
       nonOptionalTypename: true
       skipTypename: false
+      fetcher:
+        func: "@/shared/api/graphql-client#fetcher"
+        isReactHook: false
+      reactQueryVersion: 4
+      exposeQueryKeys: true

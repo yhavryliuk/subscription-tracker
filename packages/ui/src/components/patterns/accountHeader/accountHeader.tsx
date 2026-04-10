@@ -31,9 +31,7 @@ export const AccountHeader: React.FC<AccountHeaderProps> = ({
         <div className="font-semibold text-lg">Dashboard</div>
       </div>
 
-      <AppearsOpacity>
-        <div className="ml-auto text-sm text-gray-500">{userName}</div>
-      </AppearsOpacity>
+      <div className="ml-auto text-sm text-gray-500">{userName}</div>
     </header>
   );
 };
